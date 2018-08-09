@@ -19,22 +19,22 @@ public class CodeDAOImpl implements CodeDAO {
 	Logger log = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	@Qualifier("sqlSessionTemplate01")
-	private SqlSessionTemplate sqlSession;
+	//@Qualifier("sqlSessionTemplate01")
+	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
 	public List<CodeVO> selectCodeList(CodeVO vo) {
-		return sqlSession.selectList(DaoConst.NAMESPACE_CODE + ".selectCodeList", vo);
+		return sqlSessionTemplate.selectList(DaoConst.NAMESPACE_CODE + ".selectCodeList", vo);
 	}
 
 	@Override
 	public int insertCode(CodeVO vo) {
-		return sqlSession.insert(DaoConst.NAMESPACE_CODE + ".insertCode", vo);
+		return sqlSessionTemplate.insert(DaoConst.NAMESPACE_CODE + ".insertCode", vo);
 	}
 
 	@Override
 	public int deleteCode(CodeVO vo) {
-		return sqlSession.delete(DaoConst.NAMESPACE_CODE + ".deleteCode", vo);
+		return sqlSessionTemplate.delete(DaoConst.NAMESPACE_CODE + ".deleteCode", vo);
 	}
 	
 }

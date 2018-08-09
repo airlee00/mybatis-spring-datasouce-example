@@ -16,14 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -31,9 +29,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, BeanDefinitionRegistryPostProcessor {
+public class DataSourceConfigProcessor implements BeanFactoryPostProcessor { //, BeanDefinitionRegistryPostProcessor, InitializingBean {
 
-    private Logger       logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private ObjectMapper mapper = new ObjectMapper();
     {
@@ -68,7 +66,7 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, Bean
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        
+        System.out.println("------------------------------------------------------2222222222222222");
         Map<String, Object> map = convertYamlToMap();
         // biz datasource setting
         List<Map> list = (ArrayList) map.get("context.datasource.biz");
@@ -83,8 +81,9 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, Bean
             String indexString = String.format("%02d", index);
             DataSource ds = dataSource(vo);
             beanFactory.registerSingleton("bizDataSource" + indexString, ds);
-
-            beanFactory.registerSingleton("transactionManager" + indexString, transactionManager(ds));
+            PlatformTransactionManager tm = transactionManager(ds);
+            
+            beanFactory.registerSingleton("transactionManager" + indexString, tm);
 
             try {
                 SqlSessionFactory sf = sqlSessionFactory(ds);
@@ -92,9 +91,16 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, Bean
                 beanFactory.registerSingleton("sqlSessionFactory" + indexString, sf);
                 beanFactory.registerSingleton("sqlSessionTemplate" + indexString, st);
                 dataSourceMap.put(vo.getName(), st);
+                if(index == 1) {
+                    beanFactory.registerSingleton("dataSource" , ds);
+                    beanFactory.registerSingleton("sqlSessionTemplate", st);
+                    beanFactory.registerSingleton("sqlSessionFactory" , sf);
+                    beanFactory.registerSingleton("transactionManager" , tm);
+                }
             } catch (Exception e) {
                 logger.error("[fwk] create datasource error", e);
             }
+            
             index++;
         }
          try {
@@ -145,6 +151,8 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, Bean
         return holder;
     }
 
+    /////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) throws IOException {
         new DataSourceConfigProcessor().test();
     }
@@ -191,12 +199,33 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor, Bean
         System.out.println("-----------vo2-----------");
         System.out.println(list2);
     }
-
-    @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-       // GenericBeanDefinition bd = new GenericBeanDefinition();
-        //bd.setBeanClass(beanClass);
-       // registry..getBeanDefinition("bizDataSource01").setPrimary(true);
-        
-    }
+    
+//
+//    @Override
+//    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+//       // GenericBeanDefinition bd = new GenericBeanDefinition();
+//        //bd.setBeanClass(beanClass);
+//       // registry..getBeanDefinition("bizDataSource01").setPrimary(true);
+//        System.out.println("------------------------------------------------------11111111111111");
+////        String[] beanNames = beanFactory.getBeanDefinitionNames();//.getBeanNamesForType(DataSource.class);
+////        for(String name  : beanNames) {
+////            System.out.println(name);
+////            if(name.endsWith("01")) {
+////                GenericBeanDefinition gbd = new GenericBeanDefinition();
+////                gbd.setBeanClass(SqlSessionTemplate.class);
+////                beanFactory.set
+////                BeanDefinition b =  beanFactory.getBeanDefinition(name);//.setPrimary(true);
+////                b.setPrimary(true);
+////            }
+////            
+////        }
+//        
+//    }
+//
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//        // TODO Auto-generated method stub
+//        System.out.println("------------------------------------------------------333333333333333333333");
+//        
+//    }
 }
