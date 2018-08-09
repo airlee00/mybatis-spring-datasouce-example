@@ -1,0 +1,17 @@
+CREATE TABLE public.tb_code(
+			CD_DO    varchar(40)       ,
+			CD_UP    varchar(40)       ,
+			CD_DN    varchar(40)       ,
+			CD_KOR   varchar(40)        ,
+			CD_ENG   varchar(40)        ,
+			CD_DESC  varchar(40)         ,
+			USE_YN   varchar(40)        ,
+			SORT_SEQ varchar(40)          ,
+			MOD_ID   varchar(40)        ,
+			MOD_DT   varchar(40)        ,
+			CRE_ID   varchar(40)        ,
+			CRE_DT   varchar(40)
+)
+WITH (
+	OIDS=FALSE
+) ;

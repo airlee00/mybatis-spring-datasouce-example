@@ -1,0 +1,42 @@
+#
+context.datasource.biz:
+    -
+        driverClassName: org.postgresql.Driver
+        jndi: jdbc/bizDataSource01
+        url: jdbc:postgresql://localhost:5432/devfwdb
+        username: fwapp
+        password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)
+        name: SLT-PG-DataSource01,SCP-PG-DataSource01
+    -   
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        jndi: jdbc/bizDataSource02
+        url: jdbc:log4jdbc:postgresql://localhost:5432/devfwdb
+        username: fwapp
+        password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)
+        name: SCP-PG-DataSource02
+---
+spring.profiles: dev
+context.datasource.biz:
+    -
+        driverClassName: org.postgresql.Driver1
+        jndi: jdbc/bizDataSource02
+        url: jdbc:postgresql://localhost:5432/devfwdb
+        username: fwapp
+        password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)
+        name: SLT-PG-DataSource01,SCP-PG-DataSource01
+    -   
+        driverClassName: net.sf.log4jdbc.DriverSpy2
+        jndi: jdbc/bizDataSource02
+        url: jdbc:log4jdbc:postgresql://localhost:5432/devfwdb
+        username: fwapp
+        password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)
+        name: SCP-PG-DataSource02
+        
+context.datasource.framework:
+    driverClassName: org.postgresql.Driver
+    jndi: jdbc/frameworkDataSource
+    url: jdbc:postgresql://localhost:5432/devfwdb
+    username: fwapp
+    password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)        
+
+
