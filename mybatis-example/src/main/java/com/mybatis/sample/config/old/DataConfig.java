@@ -1,4 +1,4 @@
-package com.mybatis.sample.config;
+package com.mybatis.sample.config.old;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +17,13 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-@Configuration
+import com.mybatis.sample.config.SqlSessionTemplateHolder;
+
+//@Configuration
 //@MapperScan( basePackages = "com.mybatis.sample.mapper" )
 public class DataConfig {
 
-    @Bean
+    //@Bean
     public DataSource dataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(org.postgresql.Driver.class);
@@ -31,12 +33,12 @@ public class DataConfig {
         return dataSource;
     }
 
-    @Bean
+    //@Bean
     public DataSourceTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
 
-    @Bean
+    //@Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -48,7 +50,7 @@ public class DataConfig {
         return sessionFactory.getObject();
     }
 
-    @Bean
+    //@Bean
     public SqlSessionTemplate sqlSessionTemplate () throws Exception {
     	SqlSessionTemplate t = new SqlSessionTemplate(sqlSessionFactory());
     	return t;
@@ -58,7 +60,7 @@ public class DataConfig {
 	 * 모든 SqlSessionTemplate을 가지고 있는 holder
 	 * @throws Exception 
 	 */
-	@Bean
+	//@Bean
 	public SqlSessionTemplateHolder sqlSessionTemplateHolder() throws Exception  {
 		Map<String,SqlSessionTemplate> dataSourceMap = new HashMap<String, SqlSessionTemplate>();
 		dataSourceMap.put("SLT-PG-DataSource01", sqlSessionTemplate());

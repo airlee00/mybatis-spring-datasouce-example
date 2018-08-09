@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  * @author kclee01
  * @version 1.0
  * @since 2017.10.28 신규작성
- * @see YamlPropertiesFactoryBean YamlProcessor
+ * @see YamlMapFactoryBean YamlProcessor
  */
 public class ProfileDocumentMatcher implements DocumentMatcher {
 

@@ -16,6 +16,8 @@
    <!--      
     <bean class="com.mybatis.sample.config.DataConfig" />
     --> 
-    <bean class="com.mybatis.sample.config.DataSourceConfigProcessor" />
+    <bean class="com.mybatis.sample.config.DataSourceConfigProcessor" >
+    <property name="resources" value="classpath:application.yml" />
+    </bean>
 
 </beans>

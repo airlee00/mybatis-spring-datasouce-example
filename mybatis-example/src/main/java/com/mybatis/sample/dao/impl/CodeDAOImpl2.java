@@ -7,12 +7,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mybatis.sample.config.AbstractSqlSessionDaoSupport;
 import com.mybatis.sample.dao.CodeDAO;
 import com.mybatis.sample.mapper.CodeMapper;
 import com.mybatis.sample.vo.CodeVO;
 
 @Repository("codeDAO2")
-public class CodeDAOImpl2 implements CodeDAO {
+public class CodeDAOImpl2  extends AbstractSqlSessionDaoSupport implements CodeDAO {
 
 	Logger log = Logger.getLogger(this.getClass());
 	
@@ -21,7 +22,8 @@ public class CodeDAOImpl2 implements CodeDAO {
 	
 	@Override
 	public List<CodeVO> selectCodeList(CodeVO vo) {
-		return mapper.selectCodeList(vo);
+		return this.getMapper(CodeMapper.class).selectCodeList(vo);
+		//return mapper.selectCodeList(vo);
 	}
 
 	@Override
@@ -33,5 +35,10 @@ public class CodeDAOImpl2 implements CodeDAO {
 	public int deleteCode(CodeVO vo) {
 		return mapper.deleteCode(vo);
 	}
+
+	@Override
+    protected String getDataSourceName() {
+        return "SLT-PG-DataSource01";
+    }
 	
 }
