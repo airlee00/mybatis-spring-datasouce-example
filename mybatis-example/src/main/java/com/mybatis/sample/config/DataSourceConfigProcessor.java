@@ -59,14 +59,14 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor {
         System.out.println("=ffff===:" +map.get("context.datasource.framework"));
         
         List inner = (ArrayList) map.get("context.datasource.biz");
-        final List<DataSourceVo> list = new java.util.ArrayList<>();
-        inner.forEach( item ->{
-        	 DataSourceVo vo = new DataSourceVo();
-        	 BeanUtils.copyProperties(vo, item);
-        	 list.add(vo);
-        });
-		System.out.println("-----------vo-----------");
-		System.out.println(list);
+//        final List<DataSourceVo> list = new java.util.ArrayList<>();
+//        inner.forEach( item ->{
+//        	 DataSourceVo vo = new DataSourceVo();
+//        	 BeanUtils.copyProperties(vo, item);
+//        	 list.add(vo);
+//        });
+//		System.out.println("-----------vo-----------");
+//		System.out.println(list);
 		
 		ObjectMapper m = new ObjectMapper();
 		List<DataSourceVo> list2 = m.convertValue(inner, List.class);
@@ -121,7 +121,7 @@ public class DataSourceConfigProcessor implements BeanFactoryPostProcessor {
 	    }
 	    
 		/**
-		 * 모든 SqlSessionTemplate을 가지고 있는 holder
+		 * 紐⑤뱺 SqlSessionTemplate�쓣 媛�吏�怨� �엳�뒗 holder
 		 * @throws Exception 
 		 */
 		public SqlSessionTemplateHolder sqlSessionTemplateHolder() throws Exception  {
