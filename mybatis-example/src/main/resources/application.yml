@@ -1,42 +1,134 @@
-#
-context.datasource.biz:
-    -
-        driverClassName: org.postgresql.Driver
-        jndi: jdbc/bizDataSource01
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 123qwe
-        name: SLT-PG-DataSource01,SCP-PG-DataSource01
-    -   
-        driverClassName: net.sf.log4jdbc.DriverSpy
-        jndi: jdbc/bizDataSource02
-        url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 123qwe
-        name: SCP-PG-DataSource02
+#==========공통 항목 S=====================================================================
+#편집하면 안되는 값-----start
+#로그인 페이지를 자체제작할 경우
+server.error.whitelabel.enabled: false
+#security 관련 
+security.basic.enabled: false
+spring.session.store-type: none
+#편집하면 안되는 값-----end
+
+logging.config: classpath:config/logback.xml
+server.port: 8080
+#redis
+spring.session:
+    timeout: 3600
+#   redis:
+#     host: redis.apn2.cache.amazonaws.com
+#     port: 63791
+
+spring.cache:
+     #  ehcache
+      ehcache.config-location: classpath:cache/ehcache.xml
+#     redis:
+#        host: cache.cache.amazonaws.com
+#        port: 63792
+
+context:
+    locale: ko
+    # Base Package/Path of Business Component for Auto-Scan
+    business.base-package: com.hanatour
+#security.damo.iniFilePath: /data/damo/scpdb_agent.ini
+#세션 관련 -기본값으로 둘것 - system.properties에서 조정 
+# System Key
+# Service Controller Properties
+#트랜잭션 timeout(단위 초 : 기본값 120초)
+framexpert.controller-support.defaultTransactionTimeOut: 120
+#fileupload
+#amazon.aws.access-key-id: AKIAJBOB
+#amazon.aws.access-key-secret: ThcCIJUTP1QYRR4
+#기본값 50000(50초), 단위 ms 
+#multipart.maxFileSize: 5MB
+#multipart.maxRequestSize: 5MB
+
+
+#access control
+#/htl~로 요청되는 API를 처리 기본값은 /??p/** 임
+mvc.url-handler-mapping.additional-mappings: /htl/**=http-inbound-gateway
+access.control.additional-include-url-pattern: /htl/**
+   
+#api 통신서버 주소 
+api.address:
+    MCI.url: http://localhost:8090
+    FEP.url: http://localhost:8091
+    HTL_SALE.url: http://localhost:8091
+    HTL_SPLY.url: http://localhost:8091
+   #OIT:
+   #  url: http://localhost:8080
+   #  username: APITEST
+   #  password: ENC(j9Ck689OqKELxVi4NEUW8+RsKpGx/LEY) 
+   #전송채널을 분맇기 위한 그룹
+    group1: MCI,FEP,HTL_SALE,HTL_SPLY
+    group2: FEP
+    group3: OIT
+
+#mongodb config
+spring.data.mongodb:
+    database: hnt
+    base-package: com.hanatour
+    host: 34.227.47.212
+    port: 27017
+    username: fw
+    password: ENC(WlVLZ156+A/uMAPfRfGUYg==)
+
+#couchbase
+spring.cache.couchbase:
+    cache-names: customers
+    expiration: 0
+    host: cb.hnt.com
+    bucket: test
+    username: fw
+    password: ENC(WlVLZ156+A/uMAPfRfGUYg==)
+
+#####datasource
+#sql 로그를 기록할때
+#        driverClassName: com.p6spy.engine.spy.P6SpyDriver
+#        url: jdbc:p6spy:mariadb:~~
+context.datasource:
+    biz:
+      -
+          driverClassName: org.postgresql.Driver
+          jndi: jdbc/bizDataSource01
+          url: jdbc:postgresql://localhost:5432/postgres
+          username: postgres
+          password: 123qwe
+          name: SLT-PG-DataSource01,SCP-PG-DataSource01
+          pool:
+            maximumPoolSize: 2
+            minimumIdle: 2
+            
+      -   
+          driverClassName: net.sf.log4jdbc.DriverSpy
+          jndi: jdbc/bizDataSource02
+          url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+          username: postgres
+          password: 123qwe
+          name: SCP-PG-DataSource02
+          
+    framework:
+          driverClassName: org.postgresql.Driver
+          jndi: jdbc/bizDataSource01
+          url: jdbc:postgresql://localhost:5432/postgres
+          username: postgres
+          password: 123qwe
+          name: SLT-PG-DataSource01,SCP-PG-DataSource01
 ---
 spring.profiles: dev
-context.datasource.biz:
-    -
+context.datasource:
+    biz:
+      -
         driverClassName: org.postgresql.Driver1
         jndi: jdbc/bizDataSource02
         url: jdbc:postgresql://localhost:5432/postgres
         username: postgres
         password: 123qwe
         name: SLT-PG-DataSource01,SCP-PG-DataSource01
-    -   
-        driverClassName: net.sf.log4jdbc.DriverSpy2
-        jndi: jdbc/bizDataSource02
-        url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 123qwe
-        name: SCP-PG-DataSource02
-        
-context.datasource.framework:
-    driverClassName: org.postgresql.Driver
-    jndi: jdbc/frameworkDataSource
-    url: jdbc:postgresql://localhost:5432/devfwdb
-    username: fwapp
-    password: ENC(33cSwxJmy8LFNRCrPu4rMUMkddDDj13i)        
+#    -   
+#        driverClassName: net.sf.log4jdbc.DriverSpy2
+#        jndi: jdbc/bizDataSource02
+#        url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+#        username: postgres
+#        password: 123qwe
+#        name: SCP-PG-DataSource02
+     
 
 
