@@ -85,8 +85,7 @@ spring.cache.couchbase:
 #        url: jdbc:p6spy:mariadb:~~
 context.datasource:
     biz:
-      -
-          driverClassName: org.postgresql.Driver
+      -   driverClassName: org.postgresql.Driver
           jndi: jdbc/bizDataSource01
           url: jdbc:postgresql://localhost:5432/postgres
           username: postgres
@@ -96,8 +95,7 @@ context.datasource:
             maximumPoolSize: 2
             minimumIdle: 2
             
-      -   
-          driverClassName: net.sf.log4jdbc.DriverSpy
+      -   driverClassName: net.sf.log4jdbc.DriverSpy
           jndi: jdbc/bizDataSource02
           url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
           username: postgres
@@ -115,15 +113,13 @@ context.datasource:
 spring.profiles: dev
 context.datasource:
     biz:
-      -
-        driverClassName: org.postgresql.Driver1
-        jndi: jdbc/bizDataSource02
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 123qwe
-        name: SLT-PG-DataSource01,SCP-PG-DataSource01
-#    -   
-#        driverClassName: net.sf.log4jdbc.DriverSpy2
+      -  driverClassName: org.postgresql.Driver1
+         jndi: jdbc/bizDataSource02
+         url: jdbc:postgresql://localhost:5432/postgres
+         username: postgres
+         password: 123qwe
+         name: SLT-PG-DataSource01,SCP-PG-DataSource01
+#    -   driverClassName: net.sf.log4jdbc.DriverSpy2
 #        jndi: jdbc/bizDataSource02
 #        url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
 #        username: postgres
